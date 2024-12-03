@@ -46,14 +46,14 @@ struct ListRelation {
 };
 
 //punya saya
-void createListParent(ListParent &L);
-void createListChild(ListChild &L);
-void createListRelation(ListRelation &L);
-void deleteChildFirst(ListChild &L);
-void deleteChildByName(ListChild &L, string regionName);
-void displayParentList(const ListParent &L);
-void createRelation(Parent* P, Child* C);
-void insertRelationFirst(ListRelation &L, Relation* R);
+void createListTransport(ListTransport &L);
+void createListDaerah(ListDaerah &L);
+void createListRelasi(ListRelasi &L);
+void deleteDaerahFirst(ListDaerah &L);
+void deleteDaerahdByName(ListDaerah &L, string regionName);
+void displayTransportList(const ListTransport &L);
+void createRelasi(Transport* T, Daerah* D);
+void insertRelasiFirst(ListRelasi &L, Relasi* R);
 
 
 Parent* createParent(string transportName);
