@@ -4,23 +4,30 @@
 #include <string>
 using namespace std;
 
-// Struct untuk List Parent (Alat Transportasi)
-struct Parent {
-    string transportName;
-    Parent* next;
-};
+typedef struct elmListDaerah *adr_daerah;
+typedef struct elmListAlatPenumpang *adr_alatPenumpang;
+typedef struct elmListRelasi *adr_relasi;
 
-// Struct untuk List Child (Daerah)
-struct Child {
-    string regionName;
-    Child* next;
+
+// Struct untuk List Alat Transportasi
+struct Transport {
+    string jenisTransport;
+    string platNomor;
+    transport *next;
+
+// Struct untuk List Daerah
+struct Daerah {
+    string daerah;
+    string kodePos;
+    daerah *next;
+
 };
 
 // Struct untuk List Relasi
-struct Relation {
-    Parent* transport;
-    Child* region;
-    Relation* next;
+struct Relasi {
+    Daerah *daerah;
+    Transport *angkutan;
+    Relasi *next;
 };
 
 // List Parent
