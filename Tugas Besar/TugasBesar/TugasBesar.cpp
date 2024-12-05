@@ -1,6 +1,6 @@
 #include "TugasBesar.h"
 
-void createListParent(ListParent &L) {
+void createListTransport(ListTransport &L) {
     L.first = NULL;
 }
 void createListChild(ListChild &L) {
@@ -10,31 +10,31 @@ void createListRelation(ListRelation &L) {
     L.first = NULL;
 }
 
-Parent* createParent(string transportName) {
-    Parent* P = new Parent;
+Parent* createTransport(string transportName) {
+    Transport* P = new Transport;
     P->transportName = transportName;
     P->next = NULL;
     return P;
 }
 
-void insertParentFirst(ListParent &L, Parent* P) {
+void insertTransportFirst(ListTransport &L, Transport* P) {
     P->next = L.first;
     L.first = P;
 }
 
-void insertParentLast(ListParent &L, Parent* P) {
+void insertTransportLast(ListTransport &L, Transport* P) {
     if (L.first == NULL) {
         L.first = P;
     } else {
-        Parent* temp = L.first;
+        Transport* temp = L.first;
         while (temp->next != NULL) temp = temp->next;
         temp->next = P;
     }
 }
 
-void deleteParentFirst(ListParent &L) {
+void deleteTransportFirst(ListParent &L) {
     if (L.first != NULL) {
-        Parent* temp = L.first;
+       Transport* temp = L.first;
         L.first = temp->next;
         delete temp;
     }
