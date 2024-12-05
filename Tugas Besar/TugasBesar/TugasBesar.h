@@ -14,6 +14,7 @@ struct Transport {
     string jenisTransport;
     string platNomor;
     transport *next;
+};
 
 // Struct untuk List Daerah
 struct Daerah {
@@ -30,9 +31,9 @@ struct Relasi {
     Relasi *next;
 };
 
-// List Parent
-struct ListParent {
-    Parent* first;
+// List transport
+struct ListTransport {
+    Transport* first;
 };
 
 // List Child
