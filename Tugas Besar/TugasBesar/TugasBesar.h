@@ -1,11 +1,10 @@
 #ifndef TUGASBESAR_H_INCLUDED
 #define TUGASBESAR_H_INCLUDED
 #include <iostream>
-#include <string>
 using namespace std;
 
 typedef struct elmListDaerah *adr_daerah;
-typedef struct elmListAlatPenumpang *adr_alatPenumpang;
+typedef struct elmListTransport *adr_transport;
 typedef struct elmListRelasi *adr_relasi;
 
 
@@ -63,6 +62,9 @@ void deleteAfterTransport(list_Transport &L, adr_Transport &trs, adr_Transport &
 
 //print keseluruhan
 void printAll(list_Transport L, list_Relasi LR);
+
+//daerah tertentu
+void daerahTertentu(string namaTrs, listTrs L, listRelasi LR);
 
 void deleteDaerahFirst(ListDaerah &L);
 void deleteDaerahdByName(ListDaerah &L, string regionName);
