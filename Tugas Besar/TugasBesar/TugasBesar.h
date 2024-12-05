@@ -50,6 +50,20 @@ struct ListRelation {
 void createListTransport(ListTransport &L);
 void createListDaerah(ListDaerah &L);
 void createListRelasi(ListRelasi &L);
+
+//insert
+adr_transport newElmListTransport(transport x);
+adr_daerah newElmListDaerah(daerah x);
+adr_relasi newElmListRelasi(adr_Transport a, adr_daerah b);
+
+//delete Transport
+void deleteFirstTransport(list_Transport &L, adr_Transport &trs);
+void deleteLastTransport(list_Transport &L, adr_Transport &trs);
+void deleteAfterTransport(list_Transport &L, adr_Transport &trs, adr_Transport &prec);
+
+//print keseluruhan
+void printAll(list_Transport L, list_Relasi LR);
+
 void deleteDaerahFirst(ListDaerah &L);
 void deleteDaerahdByName(ListDaerah &L, string regionName);
 void displayTransportList(const ListTransport &L);
