@@ -1,5 +1,68 @@
 #include "TugasBesar.h"
 
+void createListTransport(ListTransport &L){
+    L.first = NULL;
+}
+void createListDaerah(ListDaerah &L){
+    L.first = NULL;
+}
+void createListRelasi(ListRelasi &L){
+    L.first = NULL;
+}
+adr_transport newElmListTransport(transport x){
+    adr_transport P = new elmTransport;
+    p->info = x;
+    p->next = NULL;
+    return P;
+}
+adr_daerah newElmListDaerah(daerah x){
+    adr_daerah P = new elmDaerah;
+    p->info = x;
+    p->next = NULL;
+    return P;
+}
+adr_relasi newElmListRelasi(adr_Transport a, adr_daerah b){
+    adr_relasi P = new elmRelasi;
+    p->Transport = a;
+    p->daerah = b;
+    p->next = NULL;
+    return P;
+}
+void insertAngkutan(listTransport &L, adr_transport P){
+    if (L.first == NULL) {
+        L.first = P;
+    } else {
+        adr_transport Q = L.first;
+        while (Q->next != NULL) {
+            Q = Q->next;
+        }
+        Q->next = P;
+    }
+}
+void insertDaerah(listDaerah &L, adr_daerah P){
+    if (L.first == NULL) {
+        L.first = P;
+    } else {
+        adr_daerah Q = L.first;
+        while (Q->next != NULL) {
+            Q = Q->next;
+        }
+        Q->next = P;
+    }
+}
+void insertRelasi(listRelasi &L, adr_relasi R){
+    R->next = L.first;
+    L.first = R;
+}
+void deleteTransport(listTransport &L, listRelasi &R, string namaTransport);
+void deleteDaerah(listDaerah &L, listRelasi &R, string namaDaerah);
+void printAllTransport(listTransport L, listRelasi R);
+void printTransportByDaerah(listRelasi R, string namaDaerah); 
+void printDaerahSarana(listDaerah D, listRelasi R);
+void printDaerahByTransport(listRelasi R, string namaTransport); 
+void sortTransportAsc(listTransport &L); 
+void sortTransportDesc(listTransport &L);
+
 void createListTransport(ListTransport &L) {
     L.first = NULL;
 }
