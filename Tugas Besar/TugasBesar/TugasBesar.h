@@ -3,22 +3,22 @@
 #include <iostream>
 using namespace std;
 
-typedef struct elmListDaerah *adr_daerah;
-typedef struct elmListTransport *adr_transport;
-typedef struct elmListRelasi *adr_relasi;
+typedef struct elmTransport *adr_transport;
+typedef struct elmDaerah *adr_daerah;
+typedef struct elmRelasi *adr_relasi;
 
 
 // Struct untuk List Alat Transportasi
 struct Transport {
     string jenisTransport;
-    string platNomor;
+    string namaTransport;
     transport *next;
 };
 
 // Struct untuk List Daerah
 struct Daerah {
-    string daerah;
-    string kodePos;
+    string namaDaerah;
+    string kodeDaerah;
     daerah *next;
 
 };
@@ -31,62 +31,74 @@ struct Relasi {
 };
 
 // List transport
-struct ListTransport {
-    Transport* first;
+struct elmTransport {
+    transport info;
+    adr_transport next;
 };
 
-// List Child
-struct ListChild {
-    Child* first;
+// List daerah
+struct elmDaerah {
+    daerah info;
+    adr_daerah next;
 };
 
 // List Relasi
-struct ListRelation {
-    Relation* first;
+struct elmRelasi {
+    adr_transport transport;
+    adr_daerah daerah;
+    adr_relasi next;
 };
 
-//punya saya
+struct listTransport {
+    adr_transport first;
+};
+
+struct listDaerah {
+    adr_daerah first;
+};
+
+struct listRelasi {
+    adr_relasi first;
+};
+
+
+//
 void createListTransport(ListTransport &L);
 void createListDaerah(ListDaerah &L);
 void createListRelasi(ListRelasi &L);
 
-//insert
+//
 adr_transport newElmListTransport(transport x);
 adr_daerah newElmListDaerah(daerah x);
 adr_relasi newElmListRelasi(adr_Transport a, adr_daerah b);
 
-//delete Transport
-void deleteFirstTransport(list_Transport &L, adr_Transport &trs);
-void deleteLastTransport(list_Transport &L, adr_Transport &trs);
-void deleteAfterTransport(list_Transport &L, adr_Transport &trs, adr_Transport &prec);
+//insert(penambahan data)
+void insertAngkutan(listTransport &L, adr_transport P);
+void insertDaerah(listDaerah &L, adr_daerah P);
+void insertRelasi(listRelasi &L, adr_relasi R);
 
-//print keseluruhan
-void printAll(list_Transport L, list_Relasi LR);
+//delete Transport
+void deleteTransport(listTransport &L, listRelasi &R, string namaTransport);
+
+//delete Daerah
+void deleteDaerah(listDaerah &L, listRelasi &R, string namaDaerah);
+
+//Menampilkan semua Transport dan daerah yang dikunjunginya.
+void printAllTransport(listTransport L, listRelasi R);
 
 //daerah tertentu
-void daerahTertentu(string namaTrs, listTrs L, listRelasi LR);
+void printTransportByDaerah(listRelasi R, string namaDaerah); 
 
-void deleteDaerahFirst(ListDaerah &L);
-void deleteDaerahdByName(ListDaerah &L, string regionName);
-void displayTransportList(const ListTransport &L);
-void createRelasi(Transport* T, Daerah* D);
-void insertRelasiFirst(ListRelasi &L, Relasi* R);
+//Menampilkan data daerah yang paling mudah dan yang paling sulit
+void printDaerahSarana(listDaerah D, listRelasi R);
 
+//daerah yang dilalui oleh alat angkutan tertentu.
+void printDaerahByTransport(listRelasi R, string namaTransport); 
 
-Parent* createParent(string transportName);
-void insertParentFirst(ListParent &L, Parent* P);
-void insertParentLast(ListParent &L, Parent* P);
-void deleteParentFirst(ListParent &L);
-void deleteParentByName(ListParent &L, string transportName);
+//ascending
+void sortTransportAsc(listTransport &L); 
 
-void insertChildLast(ListChild &L, Child* C);
-Child* createChild(string regionName);
-void insertChildFirst(ListChild &L, Child* C);
-
-void displayRelations(const ListRelation &L);
-void deleteRelationByParent(ListRelation &L, Parent* P);
-void deleteRelationByChild(ListRelation &L, Child* C);
-
-void displayChildList(const ListChild &L);
+//descending
+void sortTransportDesc(listTransport &L);
 
 #endif // TUGASBESAR_H_INCLUDED
