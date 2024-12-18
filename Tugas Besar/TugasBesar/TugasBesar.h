@@ -73,9 +73,13 @@ adr_daerah newElmListDaerah(daerah x);
 adr_relasi newElmListRelasi(adr_Transport a, adr_daerah b);
 
 //insert(penambahan data)
-void insertAngkutan(listTransport &L, adr_transport P);
-void insertDaerah(listDaerah &L, adr_daerah P);
-void insertRelasi(listRelasi &L, adr_relasi R);
+void insertFirstTransport(listTransport &L, adr_transport P);
+void insertFirstDaerah(listDaerah &L, adr_daerah P);
+void insertFirstRelasi(listRelasi &L, adr_relasi P);
+
+void insertLastTransport(listTransport &L, adr_transport P);
+void insertLastDaerah(listDaerah &L, adr_daerah P);
+void insertLastRelasi(listRelasi &L, adr_relasi P);
 
 //delete Transport
 void deleteTransport(listTransport &L, listRelasi &R, string namaTransport);
