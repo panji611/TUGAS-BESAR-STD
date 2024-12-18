@@ -34,159 +34,199 @@ adr_relasi newElmListRelasi(adr_transport a, adr_daerah b) {
     return R;
 }
 
-void insertAngkutan(listTransport &L, adr_transport P) {
-    if (L.first == NULL) {
-        L.first = P;
-    } else {
-        adr_transport temp = L.first;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = P;
+void insertFirstTransport(listTransport &L, adr_transport P) {
+    if(first(L)==NULL){
+        first(L)=P;
+    }else {
+        next(P)=first(L);
+        first(L)=P;
     }
 }
 
-void insertDaerah(listDaerah &L, adr_daerah P) {
-    if (L.first == NULL) {
-        L.first = P;
-    } else {
-        adr_daerah temp = L.first;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = P;
+void insertFirstDaerah(listDaerah &L, adr_daerah P) {
+    if(first(L)==NULL){
+        first(L)=P;
+    }else {
+        next(P)=first(L);
+        first(L)=P;
     }
 }
 
-void insertRelasi(listRelasi &L, adr_relasi R) {
+void insertFirstRelasi(listRelasi &L, adr_relasi P) {
+    if(first(L)==NULL){
+        first(L)=P;
+    }else {
+        next(P)=first(L);
+        first(L)=P;
+    }
+}
+
+void insertLastTransport(listTransport &L, adr_transport P) {
     if (L.first == NULL) {
-        L.first = R;
+        L.first = P;
     } else {
-        adr_relasi temp = L.first;
-        while (temp->next != NULL) {
-            temp = temp->next;
+        adr_transport Q = L.first; 
+        while (Q->next != NULL) {
+            Q = Q->next; 
         }
-        temp->next = R;
+        Q->next = P;
+    }
+}
+
+void insertLastDaerah(listDaerah &L, adr_daerah P) {
+    if (L.first == NULL) {
+        L.first = P; 
+    } else {
+        adr_daerah Q = L.first; 
+        while (Q->next != NULL) {
+            Q = Q->next; 
+        }
+        Q->next = P; 
+    }
+}
+
+void insertLastRelasi(listRelasi &L, adr_relasi P) {
+    if (L.first == NULL) {
+        L.first = P; 
+    } else {
+        adr_relasi Q = L.first;
+        while (Q->next != NULL) {
+            Q = Q->next; 
+        }
+        Q->next = P; 
     }
 }
 
 void deleteTransport(listTransport &L, listRelasi &R, string namaTransport) {
-    // Menghapus relasi terkait
-    adr_relasi pRel = R.first;
-    adr_relasi prevRel = NULL;
-    while (pRel != NULL) {
-        if (pRel->transport->info.namaTransport == namaTransport) {
-            if (prevRel == NULL) {
-                R.first = pRel->next;
-            } else {
-                prevRel->next = pRel->next;
-            }
-            delete pRel;
-            pRel = (prevRel == NULL) ? R.first : prevRel->next;
-        } else {
-            prevRel = pRel;
-            pRel = pRel->next;
-        }
+    adr_transport P = L.first, Q = NULL;
+    while (P != NULL && P->info.namaTransport != namaTransport) {
+        Q = P;
+        P = P->next;
     }
+    if (P != NULL) {
+        if (Q == NULL) {
+            L.first = P->next;
+        } else {
+            Q->next = P->next;
+        }
+        delete P;
 
-    adr_transport p = L.first;
-    adr_transport prev = NULL;
-    while (p != NULL && p->info.namaTransport != namaTransport) {
-        prev = p;
-        p = p->next;
-    }
-    if (p != NULL) {
-        if (prev == NULL) {
-            L.first = p->next;
-        } else {
-            prev->next = p->next;
+        // Hapus hubungan terkait
+        adr_relasi r = R.first, prevR = NULL;
+        while (r != NULL) {
+            if (r->transport->info.namaTransport == namaTransport) {
+                if (prevR == NULL) {
+                    R.first = r->next;
+                } else {
+                    prevR->next = r->next;
+                }
+                delete r;
+                // Menggunakan if-else untuk mengganti ternary
+                if (prevR == NULL) {
+                    r = R.first;
+                } else {
+                    r = prevR->next;
+                }
+            } else {
+                prevR = r;
+                r = r->next;
+            }
         }
-        delete p;
     }
 }
 
 void deleteDaerah(listDaerah &L, listRelasi &R, string namaDaerah) {
-    adr_relasi pRel = R.first;
-    adr_relasi prevRel = NULL;
-    while (pRel != NULL) {
-        if (pRel->daerah->info.namaDaerah == namaDaerah) {
-            if (prevRel == NULL) {
-                R.first = pRel->next;
-            } else {
-                prevRel->next = pRel->next;
-            }
-            delete pRel;
-            pRel = (prevRel == NULL) ? R.first : prevRel->next;
-        } else {
-            prevRel = pRel;
-            pRel = pRel->next;
-        }
+    adr_daerah P = L.first, Q = NULL;
+    while (P != NULL && P->info.namaDaerah != namaDaerah) {
+        Q = P;
+        P = P->next;
     }
+    if (P != NULL) {
+        if (Q == NULL) {
+            L.first = P->next;
+        } else {
+            Q->next = P->next;
+        }
+        delete P;
 
-    adr_daerah p = L.first;
-    adr_daerah prev = NULL;
-    while (p != NULL && p->info.namaDaerah != namaDaerah) {
-        prev = p;
-        p = p->next;
-    }
-    if (p != NULL) {
-        if (prev == NULL) {
-            L.first = p->next;
-        } else {
-            prev->next = p->next;
+        // Hapus hubungan terkait
+        adr_relasi r = R.first, prevR = NULL;
+        while (r != NULL) {
+            if (r->daerah->info.namaDaerah == namaDaerah) {
+                if (prevR == NULL) {
+                    R.first = r->next;
+                } else {
+                    prevR->next = r->next;
+                }
+                delete r;
+
+                if (prevR == NULL) {
+                    r = R.first;
+                } else {
+                    r = prevR->next;
+                }
+            } else {
+                prevR = r;
+                r = r->next;
+            }
         }
-        delete p;
     }
 }
 
 void printAllTransport(listTransport L, listRelasi R) {
-    adr_relasi pRel = R.first;
-    while (pRel != NULL) {
-        cout << "Transport: " << pRel->transport->info.namaTransport
-             << " -> Daerah: " << pRel->daerah->info.namaDaerah << endl;
-        pRel = pRel->next;
+    adr_transport P = L.first;
+    while (P != NULL) {
+        cout << "Transport: " << P->info.namaTransport << endl;
+        adr_relasi r = R.first;
+        while (r != NULL) {
+            if (r->transport == P) {
+                cout << "  -> Daerah: " << r->daerah->info.namaDaerah << endl;
+            }
+            r = r->next;
+        }
+        P = P->next;
     }
 }
 
 void printTransportByDaerah(listRelasi R, string namaDaerah) {
-    adr_relasi pRel = R.first;
-    bool found = false;
-    while (pRel != NULL) {
-        if (pRel->daerah->info.namaDaerah == namaDaerah) {
-            cout << "Transportasi: " << pRel->transport->info.namaTransport << endl;
-            found = true;
+    adr_relasi r = R.first;
+    bool ketemu = false;
+    while (r != NULL) {
+        if (r->daerah->info.namaDaerah == namaDaerah) {
+            cout << "Transport: " << r->transport->info.namaTransport << endl;
+            ketemu = true;
         }
-        pRel = pRel->next;
+        r = r->next;
     }
-    if (!found) {
-        cout << "Tidak ada transportasi yang mengunjungi daerah ini." << endl;
+    if (!ketemu) {
+        cout << "Tidak ada transport yang mengunjungi daerah ini." << endl;
     }
 }
 
 void printDaerahSarana(listDaerah D, listRelasi R) {
-    int minTransport = INT_MAX, maxTransport = 0;
+    int minTransport = 999999, maxTransport = 0;
     string minDaerah, maxDaerah;
 
-    adr_daerah pDaerah = D.first;
-    while (pDaerah != NULL) {
+    adr_daerah P = D.first;
+    while (P != NULL) {
         int transportCount = 0;
-        adr_relasi pRel = R.first;
-        while (pRel != NULL) {
-            if (pRel->daerah->info.namaDaerah == pDaerah->info.namaDaerah) {
+        adr_relasi r = R.first;
+        while (r != NULL) {
+            if (r->daerah == P) {
                 transportCount++;
             }
-            pRel = pRel->next;
+            r = r->next;
         }
 
         if (transportCount < minTransport) {
             minTransport = transportCount;
-            minDaerah = pDaerah->info.namaDaerah;
+            minDaerah = P->info.namaDaerah;
         }
         if (transportCount > maxTransport) {
             maxTransport = transportCount;
-            maxDaerah = pDaerah->info.namaDaerah;
+            maxDaerah = P->info.namaDaerah;
         }
-        pDaerah = pDaerah->next;
+        P = P->next;
     }
 
     cout << "Daerah dengan sarana transportasi paling sedikit: " << minDaerah << endl;
@@ -194,16 +234,16 @@ void printDaerahSarana(listDaerah D, listRelasi R) {
 }
 
 void printDaerahByTransport(listRelasi R, string namaTransport) {
-    adr_relasi pRel = R.first;
-    bool found = false;
-    while (pRel != NULL) {
-        if (pRel->transport->info.namaTransport == namaTransport) {
+    adr_relasi r = R.first;
+    int ketemu = false;
+    while (r != NULL) {
+        if (r->transport->info.namaTransport == namaTransport) {
             cout << "Daerah: " << pRel->daerah->info.namaDaerah << endl;
-            found = true;
+            ketemu = true;
         }
-        pRel = pRel->next;
+        r = r->next;
     }
-    if (!found) {
+    if (!ketemu) {
         cout << "Tidak ada daerah yang dilalui oleh transportasi ini." << endl;
     }
 }
@@ -216,11 +256,11 @@ void sortTransportAsc(listTransport &L) {
         adr_transport q = p->next;
         while (q != NULL) {
             if (p->info.namaTransport > q->info.namaTransport) {
-                swap(p->info.namaTransport, q->info.namaTransport);
+            transport temp = P->info;
+                P->info = q->info;
+                q->info = temp;
             }
-            q = q->next;
         }
-        p = p->next;
     }
 }
 
@@ -232,10 +272,10 @@ void sortTransportDesc(listTransport &L) {
         adr_transport q = p->next;
         while (q != NULL) {
             if (p->info.namaTransport < q->info.namaTransport) {
-                swap(p->info.namaTransport, q->info.namaTransport);
+                transport temp = P->info;
+                P->info = q->info;
+                q->info = temp;
             }
-            q = q->next;
         }
-        p = p->next;
     }
 }
