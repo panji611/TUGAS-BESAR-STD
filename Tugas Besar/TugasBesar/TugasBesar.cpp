@@ -279,3 +279,120 @@ void sortTransportDesc(listTransport &L) {
         }
     }
 }
+
+-----------------------------------
+
+void tampilkanMenu() {
+    cout << "=============================================" << endl;
+    cout << "                MENU UTAMA                  " << endl;
+    cout << "=============================================" << endl;
+    cout << "1. Menambah data alat angkutan" << endl;
+    cout << "2. Menambah data daerah" << endl;
+    cout << "3. Menambah relasi antara alat angkutan dan daerah" << endl;
+    cout << "4. Menghapus data alat angkutan" << endl;
+    cout << "5. Menghapus data daerah" << endl;
+    cout << "6. Menampilkan seluruh alat angkutan dan daerah yang dilalui" << endl;
+    cout << "7. Menampilkan alat angkutan berdasarkan daerah" << endl;
+    cout << "8. Menampilkan daerah berdasarkan alat angkutan" << endl;
+    cout << "9. Menampilkan daerah dengan sarana transportasi paling sedikit dan paling banyak" << endl;
+    cout << "10. Menampilkan transportasi secara ascending" << endl;
+    cout << "11. Menampilkan transportasi secara descending" << endl;
+    cout << "12. Keluar" << endl;
+    cout << "=============================================" << endl;
+    cout << "Masukkan pilihan (1-12): ";
+}
+
+// Fungsi untuk menambahkan data alat angkutan
+void tambahDataTransport(listTransport &LTransport) {
+    string namaTransport;
+    cout << "Masukkan nama alat angkutan: ";
+    cin >> namaTransport;
+    transport t = {namaTransport};
+    insertLastTransport(LTransport, newElmListTransport(t));
+    cout << "Alat angkutan berhasil ditambahkan." << endl;
+}
+
+// Fungsi untuk menambahkan data daerah
+void tambahDataDaerah(listDaerah &LDaerah) {
+    string namaDaerah;
+    cout << "Masukkan nama daerah: ";
+    cin >> namaDaerah;
+    daerah d = {namaDaerah};
+    insertLastDaerah(LDaerah, newElmListDaerah(d));
+    cout << "Daerah berhasil ditambahkan." << endl;
+}
+
+// Fungsi untuk menambahkan relasi antara alat angkutan dan daerah
+void tambahRelasi(listTransport &LTransport, listDaerah &LDaerah, listRelasi &LRelasi) {
+    string namaTransport, namaDaerah;
+    cout << "Masukkan nama alat angkutan: ";
+    cin >> namaTransport;
+    cout << "Masukkan nama daerah: ";
+    cin >> namaDaerah;
+
+    adr_transport t = LTransport.first;
+    adr_daerah d = LDaerah.first;
+    while (t != NULL && t->info.namaTransport != namaTransport) {
+        t = t->next;
+    }
+    while (d != NULL && d->info.namaDaerah != namaDaerah) {
+        d = d->next;
+    }
+    if (t != NULL && d != NULL) {
+        insertLastRelasi(LRelasi, newElmListRelasi(t, d));
+        cout << "Relasi antara alat angkutan dan daerah berhasil ditambahkan." << endl;
+    } else {
+        cout << "Alat angkutan atau daerah tidak ditemukan." << endl;
+    }
+}
+
+// Fungsi untuk menghapus data alat angkutan
+void hapusTransport(listTransport &LTransport, listRelasi &LRelasi) {
+    string namaTransport;
+    cout << "Masukkan nama alat angkutan yang akan dihapus: ";
+    cin >> namaTransport;
+    deleteTransport(LTransport, LRelasi, namaTransport);
+    cout << "Alat angkutan berhasil dihapus." << endl;
+}
+
+// Fungsi untuk menghapus data daerah
+void hapusDaerah(listDaerah &LDaerah, listRelasi &LRelasi) {
+    string namaDaerah;
+    cout << "Masukkan nama daerah yang akan dihapus: ";
+    cin >> namaDaerah;
+    deleteDaerah(LDaerah, LRelasi, namaDaerah);
+    cout << "Daerah berhasil dihapus." << endl;
+}
+
+// Fungsi untuk menampilkan alat angkutan berdasarkan daerah
+void tampilkanTransportByDaerah(listRelasi &LRelasi) {
+    string namaDaerah;
+    cout << "Masukkan nama daerah: ";
+    cin >> namaDaerah;
+    printTransportByDaerah(LRelasi, namaDaerah);
+}
+
+// Fungsi untuk menampilkan daerah berdasarkan alat angkutan
+void tampilkanDaerahByTransport(listRelasi &LRelasi) {
+    string namaTransport;
+    cout << "Masukkan nama alat angkutan: ";
+    cin >> namaTransport;
+    printDaerahByTransport(LRelasi, namaTransport);
+}
+
+// Fungsi untuk menampilkan daerah dengan transportasi paling sedikit dan paling banyak
+void tampilkanDaerahPalingSedikitDanBanyak(listDaerah &LDaerah, listRelasi &LRelasi) {
+    printDaerahSarana(LDaerah, LRelasi);
+}
+
+// Fungsi untuk menampilkan transportasi dalam urutan ascending
+void tampilkanTransportAscending(listTransport &LTransport, listRelasi &LRelasi) {
+    sortTransportAsc(LTransport);
+    printAllTransport(LTransport, LRelasi);
+}
+
+// Fungsi untuk menampilkan transportasi dalam urutan descending
+void tampilkanTransportDescending(listTransport &LTransport, listRelasi &LRelasi) {
+    sortTransportDesc(LTransport);
+    printAllTransport(LTransport, LRelasi);
+}
